@@ -1,20 +1,34 @@
 {
   "name": "animelayerjs",
-  "repository": "github:EnergoStalin/animelayerjs",
   "version": "0.1.2",
+
+  "author": "EnergoStalin",
+  "license": "GPL3",
+  "repository": "github:EnergoStalin/animelayerjs",
+
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+
+  "keywords": [
+    "animelayer",
+    "api"
+  ],
+
   "engines": {
     "node": ">=20.0.0"
   },
-  "main": "./build/index.mjs",
+
   "exports": {
     "import": "./build/index.mjs",
-    "default": "./build/index.mjs",
-    "types": "./build/index.d.ts"
+    "types": "./build/index.d.mts"
   },
+
   "files": [
     "./build/*",
     "./README.md"
   ],
+
   "scripts": {
     "build:watch": "tsup --watch",
     "build:bundle": "tsup",
@@ -27,12 +41,7 @@
     "postversion": "git push && git push --tags",
     "lint:fix": "eslint src --fix"
   },
-  "keywords": [
-    "animelayer",
-    "api"
-  ],
-  "author": "EnergoStalin",
-  "license": "GPL3",
+
   "devDependencies": {
     "@swc/core": "^1.3.100",
     "@types/node": "^20.10.4",
@@ -44,9 +53,6 @@
     "eslint-config-xo-typescript": "^1.0.1",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
     "node-html-parser": "^6.1.11",
