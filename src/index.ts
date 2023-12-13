@@ -18,7 +18,7 @@ class AnimeInfo {
 		this.parseEpisodeRange();
 	}
 
-	async getMagnetUri(client: Animelayer) {
+	async getMagnetUri(client: AnimeLayer) {
 		if (this.magnetUri) {
 			return this.magnetUri;
 		}
@@ -59,7 +59,7 @@ class AnimeInfo {
 	}
 }
 
-export class Animelayer {
+export class AnimeLayer {
 	private get baseUrl() {
 		return 'http://animelayer.ru';
 	}
