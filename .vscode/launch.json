@@ -11,10 +11,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/src/index.ts",
-      "outFiles": [
-        "${workspaceFolder}/build/*.js"
-      ]
+      "program": "${workspaceFolder}/test/index.mjs",
     }
   ]
 }

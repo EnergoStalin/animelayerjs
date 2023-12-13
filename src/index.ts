@@ -1,17 +1,68 @@
 import fs from 'fs';
 import {parse} from 'node-html-parser';
+import parseTorrent, {toMagnetURI} from 'parse-torrent';
 
-enum Quality {
-	FHD = '1920x1080',
-	HD = '1280x720',
-}
+type Quality = keyof {
+	'1920x1080': any;
+	'1280x720': any;
+};
 
 class AnimeInfo {
-	constructor(public title: string, public downloadLink: string, public quality: Quality) {}
+	public magnetUri: string | undefined;
+	public episodeRange = {
+		first: 0,
+		last: 0,
+	};
+
+	constructor(public title: string, public downloadLink: string, public quality: Quality) {
+		this.parseEpisodeRange();
+	}
+
+	async getMagnetUri(client: Animelayer) {
+		if (this.magnetUri) {
+			return this.magnetUri;
+		}
+
+		const torrent = await client.downloadTorrent(this.downloadLink);
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+		const parsed = await parseTorrent(Buffer.from(torrent));
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+		this.magnetUri = toMagnetURI(parsed);
+		return this.magnetUri;
+	}
+
+	hasEpisode(episode: number) {
+		return this.episodeRange.first >= episode && this.episodeRange.last <= episode;
+	}
+
+	private parseEpisodeRange() {
+		const split = this.title.split(' ');
+
+		let range = split.pop()!;
+		if (!range.includes('(')) {
+			range = split.pop()!;
+		}
+
+		// Get Rid of brackets
+		const piledRange = range.slice(1, range.length - 1);
+
+		const result = /(\d+).+?(\d+)/.exec(piledRange)!;
+		if (piledRange.includes('из')) {
+			this.episodeRange.first = 1;
+			this.episodeRange.last = parseInt(result[1]!, 10);
+		} else {
+			this.episodeRange.first = parseInt(result[1]!, 10);
+			this.episodeRange.last = parseInt(result[2]!, 10);
+		}
+	}
 }
 
 export class Animelayer {
-	baseUrl = 'http://animelayer.ru';
+	private get baseUrl() {
+		return 'http://animelayer.ru';
+	}
 
 	constructor(private readonly cookie: string) {}
 
@@ -35,7 +86,7 @@ export class Animelayer {
 			});
 	}
 
-	async download(link: string) {
+	async downloadTorrent(link: string) {
 		const response = await fetch(link, {
 			headers: {
 				cookie: this.cookie,
@@ -43,9 +94,5 @@ export class Animelayer {
 		});
 
 		return (await response.blob()).arrayBuffer();
-	}
-
-	async downloadEntry(entry: AnimeInfo) {
-		return this.download(entry.downloadLink);
 	}
 }

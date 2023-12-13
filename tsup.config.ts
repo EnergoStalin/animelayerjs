@@ -5,7 +5,8 @@ export default defineConfig({
 	sourcemap: true,
 	clean: true,
 	dts: true,
-	format: ['cjs', 'esm'],
+	minify: true,
+	format: ['esm'],
 	target: ['node20'],
 	outDir: 'build',
 });
