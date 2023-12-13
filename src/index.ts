@@ -25,10 +25,9 @@ class AnimeInfo {
 
 		const torrent = await client.downloadTorrent(this.downloadLink);
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+		// eslint-disable-next-line @typescript-eslint/await-thenable
 		const parsed = await parseTorrent(Buffer.from(torrent));
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		this.magnetUri = toMagnetURI(parsed);
 		return this.magnetUri;
 	}
