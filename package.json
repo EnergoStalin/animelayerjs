@@ -24,7 +24,7 @@
     "./README.md"
   ],
   "scripts": {
-    "build:watch": "tsup --watch",
+    "build:watch": "NODE_ENV=development tsup --watch",
     "build:bundle": "tsup",
     "build": "pnpm lint && pnpm build:bundle",
     "lint:eslint": "eslint src",
