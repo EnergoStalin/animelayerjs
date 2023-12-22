@@ -1,4 +1,4 @@
-import fs from 'fs';
+import moment from 'moment';
 import {parse} from 'node-html-parser';
 import parseTorrent, {toMagnetURI} from 'parse-torrent';
 
@@ -25,6 +25,8 @@ class AnimeInfo {
 		public seed: number,
 		public leech: number,
 		public size: string,
+		public uploader: string,
+		public date: Date,
 		public quality: Quality,
 	) {
 		this.parseEpisodeRange();
@@ -113,7 +115,9 @@ export class AnimeLayer {
 			.map(e => {
 				const link = e.querySelector('h3 > a')!;
 				const info = e.querySelector('div.info')!.textContent.split('|');
-				const [seed, leech, size] = info.map(e => e.trim());
+				const [seed, leech, size, uploader, updated] = info.map(e => e.trim());
+
+				const date = moment(updated!.split('н:').pop(), ['DD MMMM YYYY в hh:mm', 'DD MMMM в hh:mm'], 'ru').toDate();
 
 				return new AnimeInfo(
 					this,
@@ -122,6 +126,8 @@ export class AnimeLayer {
 					parseInt(seed!, 10),
 					parseInt(leech!, 10),
 					size!,
+					uploader!,
+					date,
 					quality,
 				);
 			});
