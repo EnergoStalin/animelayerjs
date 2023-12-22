@@ -20,6 +20,7 @@
   },
   "files": [
     "./build/*",
+    "!./build/*.map",
     "./README.md"
   ],
   "scripts": {
