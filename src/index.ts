@@ -13,6 +13,9 @@ class AnimeInfo {
 	public episodeRange = {
 		first: 0,
 		last: 0,
+		inRange(episode: number) {
+			return episode >= this.first && episode <= this.last;
+		},
 	};
 
 	#torrent: ArrayBuffer | undefined;
@@ -48,7 +51,7 @@ class AnimeInfo {
 	}
 
 	hasEpisode(episode: number) {
-		return this.episodeRange.first >= episode && this.episodeRange.last <= episode;
+		return this.episodeRange.inRange(episode);
 	}
 
 	async torrent() {
