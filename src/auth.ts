@@ -13,7 +13,7 @@ export class CookieCredentials implements CredentialProvider {
 	}
 }
 
-export class LoginPasswordCredentials implements CredentialProvider {
+export class Credentials implements CredentialProvider {
 	private cookie: Array<Record<string, string>> | undefined;
 	private cookieString: string | undefined;
 
