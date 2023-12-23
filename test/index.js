@@ -1,8 +1,7 @@
-import {AnimeLayer} from 'animelayerjs';
-import fs from 'fs';
+import {AnimeLayer, LoginPasswordCredentials} from 'animelayerjs';
 
 (async function () {
-	const client = new AnimeLayer(fs.readFileSync('/home/alexv/Source/animelayerjs/cache/cookie').toString('ascii'));
+	const client = new AnimeLayer(new LoginPasswordCredentials(process.env.ANIMELAYER_LOGIN, process.env.ANIMELAYER_PASSWORD));
 
 	const list = await client.searchWithMagnet('Hikikomari Kyuuketsuki no Monmon', '1920x1080');
 

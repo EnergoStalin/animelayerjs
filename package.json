@@ -18,6 +18,8 @@
     "import": "./build/index.mjs",
     "types": "./build/index.d.mts"
   },
+  "types": "./build/index.d.mts",
+  "module": "./build/index.mjs",
   "files": [
     "./build/*",
     "!./build/*.map",
@@ -37,6 +39,7 @@
   },
   "devDependencies": {
     "@swc/core": "^1.3.100",
+    "@types/cookie": "^0.6.0",
     "@types/node": "^20.10.4",
     "@types/parse-torrent": "^5.8.7",
     "@typescript-eslint/eslint-plugin": ">=6.0.0",
@@ -48,6 +51,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "cookie": "^0.6.0",
     "moment": "^2.29.4",
     "node-html-parser": "^6.1.11",
     "parse-torrent": "^11.0.14"
