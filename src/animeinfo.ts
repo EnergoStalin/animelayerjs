@@ -83,9 +83,14 @@ export class AnimeInfo {
 		if (piledRange.includes('из')) {
 			this.episodeRange.first = 1;
 			this.episodeRange.last = parseInt(result[1]!, 10);
-		} else {
+		} else if (result && result.length === 3) {
 			this.episodeRange.first = parseInt(result[1]!, 10);
 			this.episodeRange.last = parseInt(result[2]!, 10);
+		} else {
+			this.episodeRange = {
+				first: 1,
+				last: 1,
+			};
 		}
 	}
 }
