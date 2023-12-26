@@ -1,6 +1,5 @@
 import {AnimeInfo, type Quality} from 'animeinfo';
 import {type CredentialProvider} from 'auth';
-import moment from 'moment';
 import {parse} from 'node-html-parser';
 
 export declare type SearchOptions = {
@@ -8,12 +7,65 @@ export declare type SearchOptions = {
 	episode: number;
 };
 
+function isValidDate(d: Date) {
+	// @ts-expect-error Date can be nan
+	return d instanceof Date && !isNaN(d);
+}
+
+function parseDate(date: string) {
+	const months = [
+		'января',
+		'февраля',
+		'марта',
+		'апреля',
+		'мая',
+		'июня',
+		'июля',
+		'августа',
+		'сентября',
+		'октября',
+		'ноября',
+		'декабря',
+	];
+
+	const parts = date.split(' ')
+		.map(e => e.split(' '))
+		.flat().filter(e => e);
+	let day: string | undefined;
+	let month: string | undefined;
+	let year: string | undefined;
+	let time: string | undefined;
+	let _;
+
+	if (parts.length === 5) {
+		[day, month, year, _, time] = parts;
+	}	else {
+		[day, month, _, time] = parts;
+	}
+
+	const monthNum = months.findIndex(e => e === month);
+	const yearNum = parseInt(year ?? `${new Date().getUTCFullYear()}`, 10);
+	const [hours, minutes] = time!.split(':');
+
+	return new Date(
+		yearNum,
+		monthNum,
+		parseInt(day!, 10),
+		parseInt(hours!, 10),
+		parseInt(minutes!, 10),
+		0,
+		0,
+	);
+}
+
 export class AnimeLayer {
 	private get baseUrl() {
 		return 'http://animelayer.ru';
 	}
 
-	constructor(private readonly authProvider: CredentialProvider) { }
+	constructor(
+		private readonly authProvider: CredentialProvider,
+	) {}
 
 	async authHeaders() {
 		return {
@@ -37,7 +89,7 @@ export class AnimeLayer {
 				const info = e.querySelector('div.info')!.textContent.split('|');
 				const [seed, leech, size, uploader, updated] = info.map(e => e.trim());
 
-				const date = moment(updated!.split('н:').pop(), ['DD MMMM YYYY в hh:mm', 'DD MMMM в hh:mm'], 'ru').toDate();
+				const date = parseDate(updated!.split('н:').pop()!);
 
 				return new AnimeInfo(
 					this,

@@ -52,7 +52,6 @@
   },
   "dependencies": {
     "cookie": "^0.6.0",
-    "moment": "^2.29.4",
     "node-html-parser": "^6.1.11",
     "parse-torrent": "^11.0.14"
   }
