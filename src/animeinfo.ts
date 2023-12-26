@@ -1,6 +1,11 @@
 import parseTorrent, {toMagnetURI} from 'parse-torrent';
 import {type AnimeLayer} from './animelayer';
 
+export declare type EpisodeRange = {
+	first: number;
+	last: number;
+};
+
 export type Quality = keyof {
 	'1920x1080': any;
 	'1280x720': any;
@@ -9,12 +14,9 @@ export type Quality = keyof {
 export class AnimeInfo {
 	public magnetUri: string | undefined;
 	public hash: string | undefined;
-	public episodeRange = {
+	public episodeRange: EpisodeRange = {
 		first: 0,
 		last: 0,
-		inRange(episode: number) {
-			return episode >= this.first && episode <= this.last;
-		},
 	};
 
 	#torrent: ArrayBuffer | undefined;
@@ -50,7 +52,7 @@ export class AnimeInfo {
 	}
 
 	hasEpisode(episode: number) {
-		return this.episodeRange.inRange(episode);
+		return this.episodeRange.last >= episode && this.episodeRange.first <= episode;
 	}
 
 	async torrent() {

@@ -3,6 +3,11 @@ import {type CredentialProvider} from 'auth';
 import moment from 'moment';
 import {parse} from 'node-html-parser';
 
+export declare type SearchOptions = {
+	quality: Quality;
+	episode: number;
+};
+
 export class AnimeLayer {
 	private get baseUrl() {
 		return 'http://animelayer.ru';
@@ -16,7 +21,7 @@ export class AnimeLayer {
 		};
 	}
 
-	async search(anime: string, quality: Quality) {
+	async search(anime: string, options: SearchOptions) {
 		const url = `${this.baseUrl}/torrents/anime/?q=${encodeURIComponent(anime)}`;
 		const response = await fetch(url, {
 			headers: await this.authHeaders(),
@@ -26,7 +31,7 @@ export class AnimeLayer {
 		const dom = parse(text);
 		const torrents = Array.from(dom.querySelectorAll('li.torrent-item'));
 
-		return torrents.filter(e => e.text.includes(quality))
+		return torrents.filter(e => e.text.includes(options.quality))
 			.map(e => {
 				const link = e.querySelector('h3 > a')!;
 				const info = e.querySelector('div.info')!.textContent.split('|');
@@ -43,13 +48,13 @@ export class AnimeLayer {
 					size!,
 					uploader!,
 					date,
-					quality,
+					options.quality,
 				);
-			});
+			}).filter(e => e.hasEpisode(options.episode));
 	}
 
-	async searchWithMagnet(anime: string, quality: Quality) {
-		const list = await this.search(anime, quality);
+	async searchWithMagnet(anime: string, options: SearchOptions) {
+		const list = await this.search(anime, options);
 
 		await Promise.all(list.map(async e => e.getMagnetUri()));
 
