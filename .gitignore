@@ -132,3 +132,5 @@ dist
 build
 cache
 test/pnpm-lock.yaml
+
+.wakatime-project
