@@ -72,6 +72,14 @@ export class AnimeInfo {
 		const split = this.title.split(' ');
 
 		let range = split.pop()!;
+
+		if (/[\d]+/.exec(range)) {
+			this.episodeRange.first = parseInt(range, 10);
+			this.episodeRange.last = parseInt(range, 10);
+
+			return;
+		}
+
 		if (!range.includes('(')) {
 			range = split.pop()!;
 		}

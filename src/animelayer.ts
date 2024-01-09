@@ -81,9 +81,10 @@ export class AnimeLayer {
 
 		const text = await response.text();
 		const dom = parse(text);
-		const torrents = Array.from(dom.querySelectorAll('li.torrent-item'));
+		const torrents = Array.from(dom.querySelectorAll('li.torrent-item'))
+			.filter(e => e.text.includes(options.quality));
 
-		return torrents.filter(e => e.text.includes(options.quality))
+		return torrents
 			.map(e => {
 				const link = e.querySelector('h3 > a')!;
 				const info = e.querySelector('div.info')!.textContent.split('|');
