@@ -73,7 +73,7 @@ export class AnimeInfo {
 
 		let range = split.pop()!;
 
-		if (/[\d]+/.exec(range)) {
+		if (/^\d+$/.exec(range)) {
 			this.episodeRange.first = parseInt(range, 10);
 			this.episodeRange.last = parseInt(range, 10);
 
