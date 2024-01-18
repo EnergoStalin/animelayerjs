@@ -4,7 +4,7 @@ import {parse} from 'node-html-parser';
 
 export declare type SearchOptions = {
 	quality: Quality;
-	episode: number;
+	episode?: number;
 };
 
 function isValidDate(d: Date) {
@@ -84,7 +84,7 @@ export class AnimeLayer {
 		const torrents = Array.from(dom.querySelectorAll('li.torrent-item'))
 			.filter(e => e.text.includes(options.quality));
 
-		return torrents
+		const animeInfo = torrents
 			.map(e => {
 				const link = e.querySelector('h3 > a')!;
 				const info = e.querySelector('div.info')!.textContent.split('|');
@@ -103,7 +103,9 @@ export class AnimeLayer {
 					date,
 					options.quality,
 				);
-			}).filter(e => e.hasEpisode(options.episode));
+			});
+
+		return options.episode ? animeInfo.filter(e => e.hasEpisode(options.episode!)) : animeInfo;
 	}
 
 	async searchWithMagnet(anime: string, options: SearchOptions) {
