@@ -12,7 +12,7 @@ try {
 (async function () {
 	const client = new AnimeLayer(new Credentials(process.env.ANIMELAYER_LOGIN, process.env.ANIMELAYER_PASSWORD));
 
-	const list = await client.searchWithMagnet('Oroka na Tenshi wa Akuma to Odoru', '1920x1080');
+	const list = await client.searchWithMagnet('Akuyaku', {quality: '1920x1080'});
 
 	console.log(list);
 })();
