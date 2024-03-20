@@ -7,11 +7,6 @@ export declare type SearchOptions = {
 	episode?: number;
 };
 
-function isValidDate(d: Date) {
-	// @ts-expect-error Date can be nan
-	return d instanceof Date && !isNaN(d);
-}
-
 function parseDate(date: string) {
 	const months = [
 		'января',
