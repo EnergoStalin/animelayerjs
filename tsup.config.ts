@@ -9,6 +9,6 @@ export default defineConfig({
 	dts: true,
 	minify: !isDev,
 	format: ['esm'],
-	target: ['node20'],
+	target: ['es6'],
 	outDir: 'build',
 });

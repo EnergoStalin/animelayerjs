@@ -12,7 +12,8 @@
     "api"
   ],
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.0.0",
+    "browser": "*"
   },
   "exports": {
     "import": "./build/index.mjs",
