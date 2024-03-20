@@ -1,6 +1,6 @@
 import {AnimeInfo, type Quality} from 'animeinfo';
 import {type CredentialProvider} from 'auth';
-import {parse} from 'node-html-parser';
+import {parseDom} from './dom';
 
 export declare type SearchOptions = {
 	quality: Quality;
@@ -75,21 +75,23 @@ export class AnimeLayer {
 		});
 
 		const text = await response.text();
-		const dom = parse(text);
-		const torrents = Array.from(dom.querySelectorAll('li.torrent-item'))
-			.filter(e => e.text.includes(options.quality));
+		const dom = await parseDom(text);
+		const torrents = Array.from(dom.querySelectorAll('li.torrent-item'));
 
-		const animeInfo = torrents
+		const qualityTorrents = torrents
+			.filter(e => e.innerHTML.includes(options.quality));
+
+		const animeInfo = qualityTorrents
 			.map(e => {
 				const link = e.querySelector('h3 > a')!;
-				const info = e.querySelector('div.info')!.textContent.split('|');
+				const info = e.querySelector('div.info')!.textContent!.split('|');
 				const [seed, leech, size, uploader, updated] = info.map(e => e.trim());
 
 				const date = parseDate(updated!.split('н:').pop()!);
 
 				return new AnimeInfo(
 					this,
-					link.text,
+					link.textContent!,
 					`${this.baseUrl}${link.getAttribute('href')}download`,
 					parseInt(seed!, 10),
 					parseInt(leech!, 10),
