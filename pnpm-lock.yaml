@@ -9,8 +9,8 @@ dependencies:
     specifier: ^0.6.0
     version: 0.6.0
   node-html-parser:
-    specifier: ^6.1.11
-    version: 6.1.11
+    specifier: ^6.1.12
+    version: 6.1.12
   parse-torrent:
     specifier: ^11.0.14
     version: 11.0.14
@@ -28,6 +28,9 @@ devDependencies:
   '@types/parse-torrent':
     specifier: ^5.8.7
     version: 5.8.7
+  '@types/web':
+    specifier: ^0.0.142
+    version: 0.0.142
   '@typescript-eslint/eslint-plugin':
     specifier: '>=6.0.0'
     version: 6.14.0(@typescript-eslint/parser@6.14.0)(eslint@8.55.0)(typescript@5.3.3)
@@ -623,6 +626,10 @@ packages:
 
   /@types/semver@7.5.6:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
+    dev: true
+
+  /@types/web@0.0.142:
+    resolution: {integrity: sha512-QWDvMW+P3sdq8rhiw3dNyBR64O5adSY80gBjRd2xI3BADGsAFpAglblWucsGUjKVKyPm4EbYZkvFs7BRxPsBOg==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@6.14.0(@typescript-eslint/parser@6.14.0)(eslint@8.55.0)(typescript@5.3.3):
@@ -1593,8 +1600,8 @@ packages:
       formdata-polyfill: 4.0.10
     dev: false
 
-  /node-html-parser@6.1.11:
-    resolution: {integrity: sha512-FAgwwZ6h0DSDWxfD0Iq1tsDcBCxdJB1nXpLPPxX8YyVWzbfCjKWEzaynF4gZZ/8hziUmp7ZSaKylcn0iKhufUQ==}
+  /node-html-parser@6.1.12:
+    resolution: {integrity: sha512-/bT/Ncmv+fbMGX96XG9g05vFt43m/+SYKIs9oAemQVYyVcZmDAI2Xq/SbNcpOA35eF0Zk2av3Ksf+Xk8Vt8abA==}
     dependencies:
       css-select: 5.1.0
       he: 1.2.0
